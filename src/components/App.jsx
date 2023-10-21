@@ -31,7 +31,28 @@ export class App extends Component {
       return;
     }
        this.setState(prevState => ({ contacts: [...prevState.contacts, { ...data, id: nanoid() }] })) 
+  }
+  
+componentDidMount() {
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts !== null) {
+      this.setState({
+        contacts: JSON.parse(savedContacts),
+      });
     }
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('prevState', prevState);
+    console.log('this.state', this.state);
+
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
+
 //  eslint-disable-next-line array-callback-return
 
     // eslint-disable-next-line array-callback-return
